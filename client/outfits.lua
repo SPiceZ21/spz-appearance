@@ -28,32 +28,26 @@ Outfit table — matches GTA V SetPedComponentVariation and SetPedPropIndex args
 }
 ]]--
 
-function ApplyOutfitToLocalPed(outfit)
+local function ApplyOutfitToLocalPed(outfit)
   local ped = PlayerPedId()
 
   -- Reset to defaults first
   SetPedDefaultComponentVariation(ped)
 
   -- Apply components
-  if outfit.components then
-    for componentIdStr, comp in pairs(outfit.components) do
-      local componentId = tonumber(componentIdStr)
-      SetPedComponentVariation(
-        ped, componentId,
-        comp[1], comp[2], comp[3] or 0
-      )
-    end
+  for componentId, comp in pairs(outfit.components) do
+    SetPedComponentVariation(
+      ped, componentId,
+      comp[1], comp[2], comp[3] or 0
+    )
   end
 
   -- Apply props
-  if outfit.props then
-    for propIdStr, prop in pairs(outfit.props) do
-      local propId = tonumber(propIdStr)
-      if prop[1] == -1 then
-        ClearPedProp(ped, propId)
-      else
-        SetPedPropIndex(ped, propId, prop[1], prop[2], true)
-      end
+  for propId, prop in pairs(outfit.props) do
+    if prop[1] == -1 then
+      ClearPedProp(ped, propId)
+    else
+      SetPedPropIndex(ped, propId, prop[1], prop[2], true)
     end
   end
 end

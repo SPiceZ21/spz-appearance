@@ -6,6 +6,6 @@ CREATE TABLE IF NOT EXISTS player_outfits (
   FOREIGN KEY (player_id) REFERENCES players(id)
 );
 
--- Add crew_outfit column to crews table if it doesn't already exist
--- Ensure MariaDB 10.3.2+ or similar to support IF NOT EXISTS on ALTER TABLE
-ALTER TABLE crews ADD COLUMN IF NOT EXISTS crew_outfit JSON NULL;
+ALTER TABLE crews ADD COLUMN crew_outfit JSON NULL;
+-- NULL = crew owner has not run /saveoutfit yet
+-- Crew members use personal or default until the owner saves

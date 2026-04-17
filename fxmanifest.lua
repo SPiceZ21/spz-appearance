@@ -16,16 +16,16 @@ shared_scripts {
 server_scripts {
   '@oxmysql/lib/MySQL.lua',
   'config.lua',
-  'server/crew_outfit.lua',
-  'server/outfits.lua',
   'server/main.lua',
+  'server/outfits.lua',
+  'server/crew_outfit.lua',
 }
 
 client_scripts {
   'config.lua',
+  'client/main.lua',
   'client/outfits.lua',
   'client/commands.lua',
-  'client/main.lua',
 }
 
 dependencies {

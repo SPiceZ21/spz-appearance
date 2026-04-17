@@ -1,17 +1,5 @@
--- server/crew_outfit.lua
-
-function GetCrewOutfit(crewId)
-  local result = exports.oxmysql:executeSync(
-    "SELECT crew_outfit FROM crews WHERE id = ?",
-    { crewId }
-  )
-  if result and result[1] and result[1].crew_outfit then
-    return json.decode(result[1].crew_outfit)
-  end
-  return nil
-end
-
-function PropagateCrewOutfit(crewId, outfit)
+-- spz-appearance/server/crew_outfit.lua
+local function PropagateCrewOutfit(crewId, outfit)
   -- Write to crews table
   exports.oxmysql:execute(
     "UPDATE crews SET crew_outfit = ? WHERE id = ?",
@@ -25,4 +13,13 @@ function PropagateCrewOutfit(crewId, outfit)
   end
 end
 
-exports("GetCrewOutfit", GetCrewOutfit)
+local function GetCrewOutfit(crewId)
+  local result = exports.oxmysql:executeSync(
+    "SELECT crew_outfit FROM crews WHERE id = ?",
+    { crewId }
+  )
+  if result and result[1] and result[1].crew_outfit then
+    return json.decode(result[1].crew_outfit)
+  end
+  return nil
+end
