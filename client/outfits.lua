@@ -58,13 +58,13 @@ function ApplyOutfitToLocalPed(outfit)
   end
 end
 
-function CaptureCurrentOutfit()
+local function CaptureCurrentOutfit()
   local ped    = PlayerPedId()
   local gender = exports["spz-identity"]:GetClientGender()
 
   local components = {}
   for _, id in ipairs({ 1, 3, 4, 6, 7, 8, 11 }) do
-    components[tostring(id)] = {
+    components[id] = {
       GetPedDrawableVariation(ped, id),
       GetPedTextureVariation(ped, id),
       GetPedPaletteVariation(ped, id),
@@ -75,7 +75,7 @@ function CaptureCurrentOutfit()
   for _, id in ipairs({ 0, 1, 2, 6, 7 }) do
     local drawable = GetPedPropIndex(ped, id)
     local texture  = drawable ~= -1 and GetPedPropTextureIndex(ped, id) or 0
-    props[tostring(id)] = { drawable, texture }
+    props[id] = { drawable, texture }
   end
 
   return {

@@ -17,7 +17,6 @@ end
 RegisterNetEvent("SPZ:saveOutfit", function(outfit)
   local source  = source
   local profile = exports["spz-identity"]:GetProfile(source)
-  if not profile then return end
 
   -- Write personal outfit
   exports.oxmysql:execute(
@@ -39,8 +38,6 @@ end)
 RegisterNetEvent("SPZ:resetOutfit", function()
   local source = source
   local profile = exports["spz-identity"]:GetProfile(source)
-  if not profile then return end
-
   exports.oxmysql:execute(
     "DELETE FROM player_outfits WHERE player_id = ?",
     { profile.id }
