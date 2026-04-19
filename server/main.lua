@@ -18,8 +18,9 @@ function GetOutfitForPlayer(source)
     return savedOutfit, "personal"
   end
 
-  -- Priority 3: default SPiceZ uniform
-  return Config.DefaultOutfit[profile.gender], "default"
+  -- Priority 3: default SPiceZ uniform (guard against nil gender from DB errors)
+  local gender = profile.gender or 0
+  return Config.DefaultOutfit[gender] or Config.DefaultOutfit[0], "default"
 end
 
 SPZ = exports["spz-lib"]:GetCoreObject()
