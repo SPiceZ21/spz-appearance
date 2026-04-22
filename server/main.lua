@@ -23,7 +23,9 @@ function GetOutfitForPlayer(source)
   return Config.DefaultOutfit[gender] or Config.DefaultOutfit[0], "default"
 end
 
+print("^2[spz-appearance] Server script loading...^7")
 SPZ = exports["spz-lib"]:GetCoreObject()
+print("^2[spz-appearance] Core object retrieved. Registering callbacks...^7")
 
 SPZ.Callbacks.Register("spz-appearance:getMyOutfit", function(source, cb)
   local outfit, source_type = GetOutfitForPlayer(source)

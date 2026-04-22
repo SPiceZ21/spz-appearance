@@ -7,22 +7,17 @@ version '1.0.0'
 author 'SPiceZ-Core'
 
 shared_scripts {
-  '@spz-lib/shared/main.lua',
-  '@spz-lib/shared/callbacks.lua',
-  '@spz-lib/shared/logger.lua',
-  '@spz-lib/shared/notify.lua',
+  'config.lua',
 }
 
 server_scripts {
   '@oxmysql/lib/MySQL.lua',
-  'config.lua',
   'server/main.lua',
   'server/outfits.lua',
   'server/crew_outfit.lua',
 }
 
 client_scripts {
-  'config.lua',
   'client/main.lua',
   'client/outfits.lua',
   'client/commands.lua',
