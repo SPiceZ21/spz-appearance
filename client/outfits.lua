@@ -33,6 +33,7 @@ local function ApplyOutfitToLocalPed(outfit)
 
   -- Reset to defaults first
   SetPedDefaultComponentVariation(ped)
+  ClearAllPedProps(ped)
 
   -- Apply components
   for componentId, comp in pairs(outfit.components) do
