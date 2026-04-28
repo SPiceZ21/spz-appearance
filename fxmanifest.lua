@@ -3,7 +3,7 @@ game 'gta5'
 
 name 'spz-appearance'
 description 'SPiceZ-Core — MP Freemode ped, outfits, crew outfits'
-version '1.0.0'
+version '1.0.9'
 author 'SPiceZ-Core'
 
 shared_scripts {
