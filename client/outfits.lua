@@ -28,7 +28,7 @@ Outfit table — matches GTA V SetPedComponentVariation and SetPedPropIndex args
 }
 ]]--
 
-local function ApplyOutfitToLocalPed(outfit)
+function ApplyOutfitToLocalPed(outfit)
   local ped = PlayerPedId()
 
   -- Reset to defaults first
@@ -53,7 +53,7 @@ local function ApplyOutfitToLocalPed(outfit)
   end
 end
 
-local function CaptureCurrentOutfit()
+function CaptureCurrentOutfit()
   local ped    = PlayerPedId()
   local gender = exports["spz-identity"]:GetClientGender()
 
