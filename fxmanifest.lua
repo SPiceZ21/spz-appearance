@@ -18,8 +18,8 @@ server_scripts {
 }
 
 client_scripts {
-  'client/main.lua',
   'client/outfits.lua',
+  'client/main.lua',
   'client/commands.lua',
 }
 
