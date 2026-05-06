@@ -1,7 +1,7 @@
 -- server/main.lua
 
 function GetOutfitForPlayer(source)
-  local profile = exports["spz-identity"]:GetProfile(source)
+  local profile = Player(source).state.profile
   if not profile then return nil, nil end
 
   -- Priority 1: crew outfit
@@ -43,6 +43,17 @@ AddEventHandler("SPZ:crewChanged", function(source, oldCrewId, newCrewId)
   end
   -- Left crew or crew has no outfit — re-apply normally
   TriggerClientEvent("SPZ:applyOutfit", source)
+end)
+
+-- Reactive outfit re-application on statebag change
+AddStateBagChangeHandler("crewId", nil, function(bagName, key, value)
+  local source = tonumber(bagName:match("player:(%d+)"))
+  if not source then return end
+  
+  -- Brief wait to ensure identity has finished all profile updates
+  Citizen.SetTimeout(500, function()
+    TriggerClientEvent("SPZ:applyOutfit", source)
+  end)
 end)
 
 exports("GetOutfitForPlayer", GetOutfitForPlayer)
