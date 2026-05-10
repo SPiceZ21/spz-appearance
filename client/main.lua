@@ -7,7 +7,7 @@ SPZ.PedModels = {
   [1] = "mp_f_freemode_01",   -- female
 }
 
-AddEventHandler("SPZ:applyOutfit", function()
+RegisterNetEvent("SPZ:applyOutfit", function()
   SPZ.Callbacks.Trigger("spz-appearance:getMyOutfit", {}, function(data)
     if data and data.outfit then
       ApplyOutfitToLocalPed(data.outfit)
@@ -15,6 +15,6 @@ AddEventHandler("SPZ:applyOutfit", function()
   end)
 end)
 
-AddEventHandler("SPZ:applyCrewOutfit", function(outfit)
+RegisterNetEvent("SPZ:applyCrewOutfit", function(outfit)
   ApplyOutfitToLocalPed(outfit)
 end)
