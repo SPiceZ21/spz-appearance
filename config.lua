@@ -1,47 +1,48 @@
 -- spz-appearance/config.lua
 Config = {}
 
+-- Default SPZ uniform in illenium-appearance format
 Config.DefaultOutfit = {
 
-  [0] = {   -- Male uniform
-    gender     = 0,
-    components = {
-      [1]  = { 0,   0, 0 },   -- head
-      [3]  = { 15,  0, 0 },   -- arms
-      [4]  = { 61,  0, 0 },   -- legs
-      [6]  = { 34,  0, 0 },   -- shoes
-      [7]  = { 0,   0, 0 },   -- accessories
-      [8]  = { 15,  0, 0 },   -- undershirt
-      [11] = { 55,  0, 0 },   -- torso / jacket
+    [0] = {   -- Male
+        model      = "mp_m_freemode_01",
+        components = {
+            { component_id = 1,  drawable = 0,  texture = 0 },
+            { component_id = 3,  drawable = 15, texture = 0 },
+            { component_id = 4,  drawable = 61, texture = 0 },
+            { component_id = 6,  drawable = 34, texture = 0 },
+            { component_id = 7,  drawable = 0,  texture = 0 },
+            { component_id = 8,  drawable = 15, texture = 0 },
+            { component_id = 11, drawable = 55, texture = 0 },
+        },
+        props = {
+            { prop_id = 0, drawable = -1, texture = 0 },
+            { prop_id = 1, drawable = -1, texture = 0 },
+            { prop_id = 2, drawable = -1, texture = 0 },
+            { prop_id = 6, drawable = -1, texture = 0 },
+            { prop_id = 7, drawable = -1, texture = 0 },
+        },
     },
-    props = {
-      [0] = { -1, 0 },   -- hat
-      [1] = { -1, 0 },   -- glasses
-      [2] = { -1, 0 },   -- ear
-      [6] = { -1, 0 },   -- watch
-      [7] = { -1, 0 },   -- bracelet
-    }
-  },
 
-  [1] = {   -- Female uniform
-    gender     = 1,
-    components = {
-      [1]  = { 0,   0, 0 },   -- head
-      [3]  = { 15,  0, 0 },   -- arms
-      [4]  = { 61,  0, 0 },   -- legs
-      [6]  = { 34,  0, 0 },   -- shoes
-      [7]  = { 0,   0, 0 },   -- accessories
-      [8]  = { 15,  0, 0 },   -- undershirt
-      [11] = { 55,  0, 0 },   -- torso / jacket
+    [1] = {   -- Female
+        model      = "mp_f_freemode_01",
+        components = {
+            { component_id = 1,  drawable = 0,  texture = 0 },
+            { component_id = 3,  drawable = 15, texture = 0 },
+            { component_id = 4,  drawable = 61, texture = 0 },
+            { component_id = 6,  drawable = 34, texture = 0 },
+            { component_id = 7,  drawable = 0,  texture = 0 },
+            { component_id = 8,  drawable = 15, texture = 0 },
+            { component_id = 11, drawable = 55, texture = 0 },
+        },
+        props = {
+            { prop_id = 0, drawable = -1, texture = 0 },
+            { prop_id = 1, drawable = -1, texture = 0 },
+            { prop_id = 2, drawable = -1, texture = 0 },
+            { prop_id = 6, drawable = -1, texture = 0 },
+            { prop_id = 7, drawable = -1, texture = 0 },
+        },
     },
-    props = {
-      [0] = { -1, 0 },   -- hat
-      [1] = { -1, 0 },   -- glasses
-      [2] = { -1, 0 },   -- ear
-      [6] = { -1, 0 },   -- watch
-      [7] = { -1, 0 },   -- bracelet
-    }
-  }
 
 }
 
