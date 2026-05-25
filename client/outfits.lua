@@ -28,6 +28,10 @@ Outfit table — matches GTA V SetPedComponentVariation and SetPedPropIndex args
 }
 ]]--
 
+-- exported so other resources (e.g. spz-tablet) can call without duplicating logic
+exports("ApplyOutfitToLocalPed", function(outfit) ApplyOutfitToLocalPed(outfit) end)
+exports("CaptureCurrentOutfit",  function()       return CaptureCurrentOutfit()  end)
+
 function ApplyOutfitToLocalPed(outfit)
   local ped = PlayerPedId()
 
@@ -55,7 +59,7 @@ end
 
 function CaptureCurrentOutfit()
   local ped    = PlayerPedId()
-  local gender = exports["spz-identity"]:GetClientGender()
+  local gender = LocalPlayer.state.gender or 0
 
   local components = {}
   for _, id in ipairs({ 1, 3, 4, 6, 7, 8, 11 }) do
