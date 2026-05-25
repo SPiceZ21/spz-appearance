@@ -23,6 +23,12 @@ client_scripts {
   'client/commands.lua',
 }
 
+server_exports {
+  'PropagateCrewOutfit',
+  'GetCrewOutfit',
+  'ClearCrewOutfit',
+}
+
 dependencies {
   'spz-lib',
   'spz-core',
