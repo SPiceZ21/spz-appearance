@@ -33,5 +33,6 @@ dependencies {
   'spz-lib',
   'spz-core',
   'spz-identity',
+  'illenium-appearance',
   'oxmysql',
 }

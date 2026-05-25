@@ -2,29 +2,38 @@
 
 SPZ = exports["spz-lib"]:GetCoreObject()
 
-SPZ.PedModels = {
-  [0] = "mp_m_freemode_01",
-  [1] = "mp_f_freemode_01",
-}
+-- Outfit source routing:
+--   "personal" → full appearance (face + clothing)
+--   "crew"     → clothing only   (preserves player's own face/hair)
+--   "default"  → clothing only
 
 RegisterNetEvent("SPZ:applyOutfit", function()
-  SPZ.Callbacks.Trigger("spz-appearance:getMyOutfit", {}, function(data)
-    if data and data.outfit then
-      ApplyOutfitToLocalPed(data.outfit)
-    end
-  end)
+    SPZ.Callbacks.Trigger("spz-appearance:getMyOutfit", {}, function(data)
+        if not data or not data.outfit then return end
+
+        if data.source_type == "personal" then
+            ApplyFullAppearance(data.outfit)
+        else
+            ApplyOutfitToLocalPed(data.outfit)
+        end
+    end)
 end)
 
+-- Server pushes crew outfit directly — always clothing-only
 RegisterNetEvent("SPZ:applyCrewOutfit", function(outfit)
-  ApplyOutfitToLocalPed(outfit)
+    ApplyOutfitToLocalPed(outfit)
 end)
 
 local function ReapplyMyOutfit()
-  SPZ.Callbacks.Trigger("spz-appearance:getMyOutfit", {}, function(data)
-    if data and data.outfit then
-      ApplyOutfitToLocalPed(data.outfit)
-    end
-  end)
+    SPZ.Callbacks.Trigger("spz-appearance:getMyOutfit", {}, function(data)
+        if not data or not data.outfit then return end
+
+        if data.source_type == "personal" then
+            ApplyFullAppearance(data.outfit)
+        else
+            ApplyOutfitToLocalPed(data.outfit)
+        end
+    end)
 end
 
 exports("ReapplyMyOutfit", ReapplyMyOutfit)

@@ -1,85 +1,31 @@
 -- client/outfits.lua
+-- All outfit data uses illenium-appearance format:
+--   components = { { component_id, drawable, texture }, ... }
+--   props      = { { prop_id, drawable, texture }, ... }
+--   + model, headBlend, faceFeatures, headOverlays, hair, tattoos, eyeColor
 
---[[
-Outfit table — matches GTA V SetPedComponentVariation and SetPedPropIndex args
-{
-  gender     = 0,       -- 0=male 1=female — determines which components are valid
-
-  components = {
-    -- [componentId] = { drawableId, textureId, paletteId }
-    [1]  = { 0,   0, 0 },   -- head
-    [3]  = { 15,  0, 0 },   -- arms
-    [4]  = { 61,  0, 0 },   -- legs
-    [6]  = { 34,  0, 0 },   -- shoes
-    [7]  = { 0,   0, 0 },   -- accessories
-    [8]  = { 15,  0, 0 },   -- undershirt
-    [11] = { 55,  0, 0 },   -- torso / jacket
-  },
-
-  props = {
-    -- [propId] = { drawableId, textureId }
-    -- -1 = clear the prop (no hat, no glasses)
-    [0] = { -1, 0 },   -- hat
-    [1] = { -1, 0 },   -- glasses
-    [2] = { -1, 0 },   -- ear
-    [6] = { -1, 0 },   -- watch
-    [7] = { -1, 0 },   -- bracelet
-  }
-}
-]]--
-
--- exported so other resources (e.g. spz-tablet) can call without duplicating logic
-exports("ApplyOutfitToLocalPed", function(outfit) ApplyOutfitToLocalPed(outfit) end)
-exports("CaptureCurrentOutfit",  function()       return CaptureCurrentOutfit()  end)
-
+-- Apply clothing components + props only (crew / default outfit).
+-- Preserves each player's face, hair, tattoos.
 function ApplyOutfitToLocalPed(outfit)
-  local ped = PlayerPedId()
-
-  -- Reset to defaults first
-  SetPedDefaultComponentVariation(ped)
-  ClearAllPedProps(ped)
-
-  -- Apply components
-  for componentId, comp in pairs(outfit.components) do
-    SetPedComponentVariation(
-      ped, componentId,
-      comp[1], comp[2], comp[3] or 0
-    )
-  end
-
-  -- Apply props
-  for propId, prop in pairs(outfit.props) do
-    if prop[1] == -1 then
-      ClearPedProp(ped, propId)
-    else
-      SetPedPropIndex(ped, propId, prop[1], prop[2], true)
+    local ped = PlayerPedId()
+    if outfit.components then
+        exports['illenium-appearance']:setPedComponents(ped, outfit.components)
     end
-  end
+    if outfit.props then
+        exports['illenium-appearance']:setPedProps(ped, outfit.props)
+    end
 end
 
+-- Apply full appearance including face/hair/tattoos (personal outfit).
+function ApplyFullAppearance(appearance)
+    exports['illenium-appearance']:setPlayerAppearance(appearance)
+end
+
+-- Capture complete current appearance via illenium.
 function CaptureCurrentOutfit()
-  local ped    = PlayerPedId()
-  local gender = LocalPlayer.state.gender or 0
-
-  local components = {}
-  for _, id in ipairs({ 1, 3, 4, 6, 7, 8, 11 }) do
-    components[id] = {
-      GetPedDrawableVariation(ped, id),
-      GetPedTextureVariation(ped, id),
-      GetPedPaletteVariation(ped, id),
-    }
-  end
-
-  local props = {}
-  for _, id in ipairs({ 0, 1, 2, 6, 7 }) do
-    local drawable = GetPedPropIndex(ped, id)
-    local texture  = drawable ~= -1 and GetPedPropTextureIndex(ped, id) or 0
-    props[id] = { drawable, texture }
-  end
-
-  return {
-    gender     = gender,
-    components = components,
-    props      = props,
-  }
+    return exports['illenium-appearance']:getPedAppearance(PlayerPedId())
 end
+
+exports("ApplyOutfitToLocalPed", ApplyOutfitToLocalPed)
+exports("ApplyFullAppearance",   ApplyFullAppearance)
+exports("CaptureCurrentOutfit",  CaptureCurrentOutfit)
