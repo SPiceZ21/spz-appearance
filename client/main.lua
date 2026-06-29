@@ -1,14 +1,7 @@
 -- client/main.lua
 
-SPZ = exports["spz-lib"]:GetCoreObject()
-
--- Outfit source routing:
---   "personal" → full appearance (face + clothing)
---   "crew"     → clothing only   (preserves player's own face/hair)
---   "default"  → clothing only
-
 RegisterNetEvent("SPZ:applyOutfit", function()
-    SPZ.Callbacks.Trigger("spz-appearance:getMyOutfit", {}, function(data)
+    lib.callback("spz-appearance:getMyOutfit", false, function(data)
         if not data or not data.outfit then return end
 
         if data.source_type == "personal" then
@@ -16,7 +9,7 @@ RegisterNetEvent("SPZ:applyOutfit", function()
         else
             ApplyOutfitToLocalPed(data.outfit)
         end
-    end)
+    end, {})
 end)
 
 -- Server pushes crew outfit directly — always clothing-only
@@ -25,7 +18,7 @@ RegisterNetEvent("SPZ:applyCrewOutfit", function(outfit)
 end)
 
 local function ReapplyMyOutfit()
-    SPZ.Callbacks.Trigger("spz-appearance:getMyOutfit", {}, function(data)
+    lib.callback("spz-appearance:getMyOutfit", false, function(data)
         if not data or not data.outfit then return end
 
         if data.source_type == "personal" then
@@ -33,7 +26,7 @@ local function ReapplyMyOutfit()
         else
             ApplyOutfitToLocalPed(data.outfit)
         end
-    end)
+    end, {})
 end
 
 exports("ReapplyMyOutfit", ReapplyMyOutfit)

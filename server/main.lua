@@ -24,12 +24,10 @@ function GetOutfitForPlayer(source)
 end
 
 print("^2[spz-appearance] Server script loading...^7")
-SPZ = exports["spz-lib"]:GetCoreObject()
-print("^2[spz-appearance] Core object retrieved. Registering callbacks...^7")
 
-SPZ.Callbacks.Register("spz-appearance:getMyOutfit", function(source, cb)
+lib.callback.register("spz-appearance:getMyOutfit", function(source)
   local outfit, source_type = GetOutfitForPlayer(source)
-  cb({ outfit = outfit, source_type = source_type })
+  return { outfit = outfit, source_type = source_type }
 end)
 
 AddEventHandler("SPZ:crewChanged", function(source, oldCrewId, newCrewId)

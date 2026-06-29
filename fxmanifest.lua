@@ -30,7 +30,7 @@ server_exports {
 }
 
 dependencies {
-  'spz-lib',
+  'ox_lib',
   'spz-core',
   'spz-identity',
   'illenium-appearance',
