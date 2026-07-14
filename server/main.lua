@@ -18,12 +18,31 @@ function GetOutfitForPlayer(source)
     return savedOutfit, "personal"
   end
 
-  -- Priority 3: default SPiceZ uniform (guard against nil gender from DB errors)
-  local gender = profile.gender or 0
-  return Config.DefaultOutfit[gender] or Config.DefaultOutfit[0], "default"
+  -- No predefined uniform — keep whatever the player is wearing
+  return nil, nil
 end
 
 print("^2[spz-appearance] Server script loading...^7")
+
+-- ── Schema bootstrap ──────────────────────────────────────────────────────────
+-- Self-create so deployments never depend on install.sql being run manually.
+CreateThread(function()
+    MySQL.query.await([[
+        CREATE TABLE IF NOT EXISTS player_outfits (
+            id         INT       AUTO_INCREMENT PRIMARY KEY,
+            player_id  INT       NOT NULL UNIQUE,
+            outfit     JSON      NOT NULL,
+            updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+        )
+    ]])
+
+    -- crew_outfit column on crews (ignore "duplicate column" on re-runs)
+    pcall(function()
+        MySQL.query.await("ALTER TABLE crews ADD COLUMN crew_outfit JSON NULL")
+    end)
+
+    print("^2[spz-appearance] Schema ready (player_outfits)^7")
+end)
 
 lib.callback.register("spz-appearance:getMyOutfit", function(source)
   local outfit, source_type = GetOutfitForPlayer(source)

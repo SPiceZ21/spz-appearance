@@ -1,5 +1,5 @@
 -- client/outfits.lua
--- All outfit data uses illenium-appearance format:
+-- All outfit data uses fivem-appearance format:
 --   components = { { component_id, drawable, texture }, ... }
 --   props      = { { prop_id, drawable, texture }, ... }
 --   + model, headBlend, faceFeatures, headOverlays, hair, tattoos, eyeColor
@@ -9,21 +9,21 @@
 function ApplyOutfitToLocalPed(outfit)
     local ped = PlayerPedId()
     if outfit.components then
-        exports['illenium-appearance']:setPedComponents(ped, outfit.components)
+        exports['fivem-appearance']:setPedComponents(ped, outfit.components)
     end
     if outfit.props then
-        exports['illenium-appearance']:setPedProps(ped, outfit.props)
+        exports['fivem-appearance']:setPedProps(ped, outfit.props)
     end
 end
 
 -- Apply full appearance including face/hair/tattoos (personal outfit).
 function ApplyFullAppearance(appearance)
-    exports['illenium-appearance']:setPlayerAppearance(appearance)
+    exports['fivem-appearance']:setPlayerAppearance(appearance)
 end
 
--- Capture complete current appearance via illenium.
+-- Capture complete current appearance via fivem-appearance.
 function CaptureCurrentOutfit()
-    return exports['illenium-appearance']:getPedAppearance(PlayerPedId())
+    return exports['fivem-appearance']:getPedAppearance(PlayerPedId())
 end
 
 exports("ApplyOutfitToLocalPed", ApplyOutfitToLocalPed)
