@@ -52,6 +52,15 @@ RegisterNetEvent("SPZ:openAppearanceCustomization", function()
                 -- Cancelled — dress them in crew/default so they aren't naked
                 TriggerEvent("SPZ:applyOutfit")
             end
+
+            -- Ensure player state is fully reset (Fix for ghost mode and stuck camera loops)
+            local ped = PlayerPedId()
+            SetLocalPlayerAsGhost(false)
+            SetEntityVisible(ped, true, false)
+            FreezeEntityPosition(ped, false)
+            RenderScriptCams(false, false, 0, true, true)
+            DestroyAllCams(true)
+
             -- Hand control back to the spawn flow (play menu next)
             TriggerEvent("SPZ:appearanceCustomizationDone")
         end, {
