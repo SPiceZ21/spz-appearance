@@ -4,14 +4,12 @@ function GetSavedOutfit(source)
   local profile = exports["spz-identity"]:GetProfile(source)
   if not profile then return nil end
 
-  local result  = exports.oxmysql:executeSync(
-    "SELECT outfit FROM player_outfits WHERE player_id = ?",
+  -- await (not Sync): sync variants block the whole server thread
+  local outfit = MySQL.scalar.await(
+    "SELECT outfit FROM player_outfits WHERE player_id = ? LIMIT 1",
     { profile.id }
   )
-  if result and result[1] and result[1].outfit then
-    return json.decode(result[1].outfit)
-  end
-  return nil
+  return outfit and json.decode(outfit) or nil
 end
 
 RegisterNetEvent("SPZ:saveOutfit", function(outfit)

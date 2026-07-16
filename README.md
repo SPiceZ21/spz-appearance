@@ -41,7 +41,7 @@
 
 | Resource | Version | Role |
 |---|---|---|
-| `spz-lib` | 1.0.0+ | Callbacks, notify, logger |
+| `ox_lib` | 3.0.0+ | Callbacks, notify, context menus |
 | `spz-core` | 1.0.0+ | Spawns, state machine |
 | `oxmysql` | 2.0.0+ | Outfit persistence |
 
@@ -49,8 +49,8 @@
 
 <div align="center">
 
-*Part of the [SPiceZ-Core](https://github.com/SPiceZ-Core) ecosystem*
+*Part of the [SPiceZ-Core](https://github.com/SPiceZ21) ecosystem*
 
-**[Docs](https://github.com/SPiceZ-Core/spz-docs) · [Discord](https://discord.gg/) · [Issues](https://github.com/SPiceZ-Core/spz-appearance/issues)**
+**[Docs](https://github.com/SPiceZ21/spz-docs) · [Discord](https://discord.gg/) · [Issues](https://github.com/SPiceZ21/spz-appearance/issues)**
 
 </div>
