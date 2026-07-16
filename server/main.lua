@@ -24,25 +24,8 @@ end
 
 print("^2[spz-appearance] Server script loading...^7")
 
--- ── Schema bootstrap ──────────────────────────────────────────────────────────
--- Self-create so deployments never depend on install.sql being run manually.
-CreateThread(function()
-    MySQL.query.await([[
-        CREATE TABLE IF NOT EXISTS player_outfits (
-            id         INT       AUTO_INCREMENT PRIMARY KEY,
-            player_id  INT       NOT NULL UNIQUE,
-            outfit     JSON      NOT NULL,
-            updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-        )
-    ]])
-
-    -- crew_outfit column on crews (ignore "duplicate column" on re-runs)
-    pcall(function()
-        MySQL.query.await("ALTER TABLE crews ADD COLUMN crew_outfit JSON NULL")
-    end)
-
-    print("^2[spz-appearance] Schema ready (player_outfits)^7")
-end)
+-- Schema (player_outfits, crews.crew_outfit) is owned by
+-- spz-core/migrations/ — see 001_core_schema.sql.
 
 lib.callback.register("spz-appearance:getMyOutfit", function(source)
   local outfit, source_type = GetOutfitForPlayer(source)
