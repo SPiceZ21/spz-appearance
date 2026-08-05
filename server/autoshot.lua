@@ -26,21 +26,35 @@ end
 local function safe(sub, name)
     if sub ~= 'clothing' and sub ~= 'props' then return nil end
     if type(name) ~= 'string' or not name:match('^[%w_%-]+$') then return nil end
-    return ('images/%s/%s.png'):format(sub, name)
+    return ('images/%s/%s.jpg'):format(sub, name)
 end
 
 RegisterNetEvent('spz-appearance:saveShot', function(sub, name, dataUri)
     local src = source
-    if type(dataUri) ~= 'string' then return end
+    if type(dataUri) ~= 'string' then
+        print('[autoshot] bad payload (not a string)')
+        TriggerClientEvent('spz-appearance:shotSaved', src, false)
+        return
+    end
 
     local path = safe(sub, name)
-    if not path then return end
+    if not path then
+        TriggerClientEvent('spz-appearance:shotSaved', src, false)
+        return
+    end
 
-    -- Strip the data-URI header, decode, write into fivem-appearance.
+    -- Strip the data-URI header (png or jpeg), decode, write into fivem-appearance.
     local b64 = dataUri:gsub('^data:image/[%w%+%-%.]+;base64,', '')
     local bytes = b64decode(b64)
-    if #bytes < 64 then TriggerClientEvent('spz-appearance:shotSaved', src, false); return end
+    if #bytes < 64 then
+        print(('[autoshot] decode too small (%d bytes) for %s'):format(#bytes, name))
+        TriggerClientEvent('spz-appearance:shotSaved', src, false)
+        return
+    end
 
     local ok = SaveResourceFile('fivem-appearance', path, bytes, #bytes)
+    if not (ok == true or ok == 1) then
+        print(('[autoshot] SaveResourceFile FAILED: %s (does fivem-appearance/images/%s exist?)'):format(path, sub))
+    end
     TriggerClientEvent('spz-appearance:shotSaved', src, ok == true or ok == 1)
 end)

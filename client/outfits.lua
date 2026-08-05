@@ -33,12 +33,19 @@ end
 -- full SetPlayerModel swap (new ped handle) which is what left players ghosted
 -- and unable to move after spawn.
 function ApplyFullAppearance(appearance)
-    local ped     = PlayerPedId()
+    local ped      = PlayerPedId()
     local curModel = GetEntityModel(ped)
-    local wantHash = appearance.model and GetHashKey(appearance.model) or curModel
 
-    if wantHash == curModel then
-        -- Same model → just paint the appearance onto the existing ped
+    -- If the ped is ALREADY a freemode model (always true after spawn), paint the
+    -- appearance onto the existing ped. NEVER go through setPlayerAppearance here —
+    -- that calls SetPlayerModel, which respawns the ped at the world origin (0,0,0)
+    -- and drops the player through the map ("spawns fine, then TPs to a random
+    -- place and falls"). setPlayerModel is only needed to change the base model,
+    -- which spawn already did.
+    local isFreemode = curModel == GetHashKey('mp_m_freemode_01')
+        or curModel == GetHashKey('mp_f_freemode_01')
+
+    if isFreemode then
         exports['fivem-appearance']:setPedAppearance(ped, appearance)
     else
         exports['fivem-appearance']:setPlayerAppearance(appearance)
