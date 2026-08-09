@@ -1,56 +1,48 @@
-<div align="center">
-
-<img src="https://github.com/SPiceZ21/spz-core-media-kit/raw/main/Banner/Banner%232.png" alt="SPiceZ-Core Banner" width="100%"/>
-
-<br/>
-
 # spz-appearance
 
-### Player Models & Outfit Management
-
-*The dedicated module for handling ped models, outfit priority systems, and personal/crew outfit persistence.*
-
-<br/>
-
-[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-orange.svg?style=flat-square)](https://www.gnu.org/licenses/gpl-3.0)
-[![FiveM](https://img.shields.io/badge/FiveM-Compatible-orange?style=flat-square)](https://fivem.net)
-[![Lua](https://img.shields.io/badge/Lua-5.4-blue?style=flat-square&logo=lua)](https://lua.org)
-[![Status](https://img.shields.io/badge/Status-In%20Development-green?style=flat-square)]()
-
-</div>
-
----
+> MP Freemode ped, personal outfits, crew uniforms · `v2.0.0`
 
 ## Overview
 
-`spz-appearance` is the dedicated resource for managing the visual appearance of players within the ecosystem. It provides an architecture for applying and persisting ped models, managing personal saved outfits, assigning crew uniforms, and prioritizing different layers of clothing correctly.
+`spz-appearance` owns how players look. It applies the MP Freemode ped, persists saved
+outfits per player, propagates crew uniforms, and reapplies the correct look after spawns,
+state changes and respawns. It sits on top of `fivem-appearance`, which supplies the
+editor UI and the underlying component API.
 
----
+## Structure
 
-## Features
+| Side | File | Purpose |
+|---|---|---|
+| Shared | `config.lua` | Appearance configuration |
+| Server | `server/main.lua` | Entry point, appearance persistence |
+| Server | `server/outfits.lua` | Personal outfit storage |
+| Server | `server/crew_outfit.lua` | Crew uniform assignment and propagation |
+| Server | `server/autoshot.lua` | Automatic player headshot capture |
+| Client | `client/main.lua` | Ped model loading and appearance application |
+| Client | `client/outfits.lua` | Outfit apply / capture / reset |
+| Client | `client/commands.lua` | Player commands |
+| Client | `client/autoshot.lua` | Client half of headshot capture |
 
-- **Ped Model Management** — Safe network/client loading of custom and default ped models.
-- **Outfit Persistence** — Save and load player-specific outfits persistently via database.
-- **Crew Outfits** — Easily apply and replace crew-based clothing.
-- **Priority System** — Logic to determine the correct application priority when multiple outfit sources exist.
-- **Client Application Logic** — Reliable client-side scripts to ensure clothing changes apply flawlessly during state changes, spawns, and free roam.
+## Exports
 
----
+| Side | Exports |
+|---|---|
+| Server | `PropagateCrewOutfit` · `GetCrewOutfit` · `ClearCrewOutfit` · `GetOutfitForPlayer` |
+| Client | `ApplyFullAppearance` · `ApplyOutfitToLocalPed` · `CaptureCurrentOutfit` · `SaveOutfit` · `GetSavedOutfit` · `ReapplyMyOutfit` · `ResetOutfit` |
+
+## Commands
+
+| Command | Effect |
+|---|---|
+| `/appearance` | Open the appearance editor |
+| `/saveoutfit` | Save the current outfit |
+| `/resetoutfit` | Restore the default outfit |
+| `/autoshot` | Trigger a headshot capture |
 
 ## Dependencies
 
-| Resource | Version | Role |
-|---|---|---|
-| `ox_lib` | 3.0.0+ | Callbacks, notify, context menus |
-| `spz-core` | 1.0.0+ | Spawns, state machine |
-| `oxmysql` | 2.0.0+ | Outfit persistence |
+`ox_lib` · `spz-core` · `spz-identity` · `fivem-appearance` · `oxmysql` · `screenshot-basic`
 
 ---
 
-<div align="center">
-
-*Part of the [SPiceZ-Core](https://github.com/SPiceZ21) ecosystem*
-
-**[Docs](https://github.com/SPiceZ21/spz-docs) · [Discord](https://discord.gg/) · [Issues](https://github.com/SPiceZ21/spz-appearance/issues)**
-
-</div>
+Part of [SPiceZ-Core](../README.md) · GPL-3.0
