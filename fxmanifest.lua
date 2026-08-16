@@ -16,14 +16,12 @@ server_scripts {
   'server/main.lua',
   'server/outfits.lua',
   'server/crew_outfit.lua',
-  'server/autoshot.lua',
 }
 
 client_scripts {
   'client/outfits.lua',
   'client/main.lua',
   'client/commands.lua',
-  'client/autoshot.lua',
 }
 
 server_exports {
@@ -38,5 +36,4 @@ dependencies {
   'spz-identity',
   'fivem-appearance',
   'oxmysql',
-  'screenshot-basic',
 }
