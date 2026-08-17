@@ -45,15 +45,28 @@ AddEventHandler("SPZ:crewChanged", function(source, oldCrewId, newCrewId)
   TriggerClientEvent("SPZ:applyOutfit", source)
 end)
 
--- Reactive outfit re-application on statebag change
+-- Reactive outfit re-application on statebag change.
+-- Statebags fire on every WRITE, even when the value is identical, so this must
+-- compare against the last seen value — otherwise a redundant crewId write
+-- re-applies the outfit, and the outfit callback's own profile read writes it
+-- again: a self-feeding loop that hammered the database.
+local LastCrewId = {}
+
 AddStateBagChangeHandler("crewId", nil, function(bagName, key, value)
   local source = tonumber(bagName:match("player:(%d+)"))
   if not source then return end
-  
+
+  if LastCrewId[source] == value then return end   -- unchanged: nothing to do
+  LastCrewId[source] = value
+
   -- Brief wait to ensure identity has finished all profile updates
   Citizen.SetTimeout(500, function()
     TriggerClientEvent("SPZ:applyOutfit", source)
   end)
+end)
+
+AddEventHandler("playerDropped", function()
+  LastCrewId[source] = nil
 end)
 
 exports("GetOutfitForPlayer", GetOutfitForPlayer)

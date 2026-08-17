@@ -28,6 +28,30 @@ local function RestoreControl()
     SetPlayerInvincible(PlayerId(), false)
 end
 
+-- Paint a full appearance onto an EXISTING ped, without any model swap.
+--
+-- `setPedAppearance` only exists in our fork of fivem-appearance; upstream
+-- (1.3.0) does not export it, which threw "No such export" on every apply.
+-- So: use it when present, otherwise apply the same thing piece by piece with
+-- the per-part exports upstream has always shipped. Either way we never touch
+-- setPlayerAppearance here — that does a SetPlayerModel swap which respawns the
+-- ped at the world origin and drops the player through the map.
+function PaintAppearance(ped, a)
+    local fa = exports['fivem-appearance']
+
+    local ok = pcall(function() fa:setPedAppearance(ped, a) end)
+    if ok then return end
+
+    if a.headBlend     then pcall(function() fa:setPedHeadBlend(ped, a.headBlend) end) end
+    if a.faceFeatures  then pcall(function() fa:setPedFaceFeatures(ped, a.faceFeatures) end) end
+    if a.headOverlays  then pcall(function() fa:setPedHeadOverlays(ped, a.headOverlays) end) end
+    if a.hair          then pcall(function() fa:setPedHair(ped, a.hair) end) end
+    if a.eyeColor      then pcall(function() fa:setPedEyeColor(ped, a.eyeColor) end) end
+    if a.components    then pcall(function() fa:setPedComponents(ped, a.components) end) end
+    if a.props         then pcall(function() fa:setPedProps(ped, a.props) end) end
+    if a.tattoos       then pcall(function() fa:setPedTattoos(ped, a.tattoos) end) end
+end
+
 -- Apply full appearance including face/hair/tattoos (personal outfit).
 -- Avoid setPlayerAppearance when the model already matches — that path does a
 -- full SetPlayerModel swap (new ped handle) which is what left players ghosted
@@ -46,7 +70,7 @@ function ApplyFullAppearance(appearance)
         or curModel == GetHashKey('mp_f_freemode_01')
 
     if isFreemode then
-        exports['fivem-appearance']:setPedAppearance(ped, appearance)
+        PaintAppearance(ped, appearance)
     else
         exports['fivem-appearance']:setPlayerAppearance(appearance)
     end
