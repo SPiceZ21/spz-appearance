@@ -33,7 +33,7 @@ RegisterNetEvent("SPZ:openAppearanceCustomization", function()
     -- crashes with "reading 'masks'/'hats'".
     local ped   = PlayerPedId()
     local model = GetEntityModel(ped)
-    if model ~= `mp_m_freemode_01` and model ~= `mp_f_freemode_01` then
+    if model ~= 'mp_m_freemode_01' and model ~= 'mp_f_freemode_01' then
         print("^1[spz-appearance] Ped is not a freemode model — skipping customization^7")
         TriggerEvent("SPZ:applyOutfit")
         TriggerEvent("SPZ:appearanceCustomizationDone")
