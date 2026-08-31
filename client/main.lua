@@ -31,10 +31,19 @@ RegisterNetEvent("SPZ:openAppearanceCustomization", function()
     -- fivem-appearance's UI builds its drawable lists from the ped: it must be a
     -- fully-loaded freemode model with initialised components, or the NUI
     -- crashes with "reading 'masks'/'hats'".
-    local ped   = PlayerPedId()
-    local model = GetEntityModel(ped)
-    if model ~= 'mp_m_freemode_01' and model ~= 'mp_f_freemode_01' then
-        print("^1[spz-appearance] Ped is not a freemode model — skipping customization^7")
+    --
+    -- GetEntityModel returns a HASH. This used to compare it against the model
+    -- NAMES as strings, which can never match, so the guard rejected every ped
+    -- it was given — including the correct one. The customiser was skipped on
+    -- 100% of new characters: the player was never asked, and the flow went
+    -- straight to Done. Comparing against the hashes is the whole fix.
+    local ped     = PlayerPedId()
+    local model   = GetEntityModel(ped)
+    local isFreemode = model == GetHashKey('mp_m_freemode_01')
+                    or model == GetHashKey('mp_f_freemode_01')
+
+    if not isFreemode then
+        print(("^1[spz-appearance] Ped is not a freemode model (hash %s) — skipping customization^7"):format(tostring(model)))
         TriggerEvent("SPZ:applyOutfit")
         TriggerEvent("SPZ:appearanceCustomizationDone")
         return
