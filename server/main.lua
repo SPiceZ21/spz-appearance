@@ -25,7 +25,7 @@ end
 print("^2[spz-appearance] Server script loading...^7")
 
 -- Schema (player_outfits, crews.crew_outfit) is owned by
--- spz-core/migrations/ — see 001_core_schema.sql.
+-- spz-core/migrations/core/001_core_schema.sql.
 
 lib.callback.register("spz-appearance:getMyOutfit", function(source)
   local outfit, source_type = GetOutfitForPlayer(source)
