@@ -22,10 +22,3 @@ function GetCrewOutfit(crewId)
     return nil
 end
 
-function ClearCrewOutfit(crewId)
-    MySQL.update.await("UPDATE crews SET crew_outfit = NULL WHERE id = ?", { crewId })
-end
-
-exports("PropagateCrewOutfit", PropagateCrewOutfit)
-exports("GetCrewOutfit",       GetCrewOutfit)
-exports("ClearCrewOutfit",     ClearCrewOutfit)

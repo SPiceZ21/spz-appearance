@@ -69,4 +69,3 @@ AddEventHandler("playerDropped", function()
   LastCrewId[source] = nil
 end)
 
-exports("GetOutfitForPlayer", GetOutfitForPlayer)

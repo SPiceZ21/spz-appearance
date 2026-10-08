@@ -83,6 +83,3 @@ function CaptureCurrentOutfit()
     return exports['fivem-appearance']:getPedAppearance(PlayerPedId())
 end
 
-exports("ApplyOutfitToLocalPed", ApplyOutfitToLocalPed)
-exports("ApplyFullAppearance",   ApplyFullAppearance)
-exports("CaptureCurrentOutfit",  CaptureCurrentOutfit)

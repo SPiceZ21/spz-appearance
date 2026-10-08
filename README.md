@@ -47,8 +47,7 @@ Exposed as `IsCustomizing` for anything else that needs to keep its hands off th
 
 | Side | Exports |
 |---|---|
-| Server | `PropagateCrewOutfit` · `GetCrewOutfit` · `ClearCrewOutfit` · `GetOutfitForPlayer` |
-| Client | `ApplyFullAppearance` · `ApplyOutfitToLocalPed` · `CaptureCurrentOutfit` · `SaveOutfit` · `GetSavedOutfit` · `ReapplyMyOutfit` · `ResetOutfit` · `IsCustomizing` |
+| Client | `ReapplyMyOutfit` · `IsCustomizing` |
 
 ## Commands
 

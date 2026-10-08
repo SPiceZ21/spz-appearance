@@ -8,7 +8,6 @@ author 'SPiceZ-Core'
 
 shared_scripts {
   '@ox_lib/init.lua',
-  'config.lua',
 }
 
 server_scripts {
@@ -22,12 +21,6 @@ client_scripts {
   'client/outfits.lua',
   'client/main.lua',
   'client/commands.lua',
-}
-
-server_exports {
-  'PropagateCrewOutfit',
-  'GetCrewOutfit',
-  'ClearCrewOutfit',
 }
 
 dependencies {
