@@ -7,7 +7,8 @@ function PropagateCrewOutfit(crewId, outfit)
     )
     local members = exports["spz-identity"]:GetOnlineCrewMembers(crewId)
     for _, memberSource in ipairs(members) do
-        TriggerClientEvent("SPZ:applyCrewOutfit", memberSource, outfit)
+        -- Each member keeps their own face / hair colours under the clothes.
+        TriggerClientEvent("SPZ:applyCrewOutfit", memberSource, outfit, GetSavedOutfit(memberSource))
     end
 end
 

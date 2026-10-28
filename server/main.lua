@@ -29,7 +29,11 @@ print("^2[spz-appearance] Server script loading...^7")
 
 lib.callback.register("spz-appearance:getMyOutfit", function(source)
   local outfit, source_type = GetOutfitForPlayer(source)
-  return { outfit = outfit, source_type = source_type }
+  -- Crew outfits are clothing only. Send the member's own saved look too, so
+  -- their face / hair / eye / makeup colours are painted under the crew
+  -- clothes -- without it every crew member spawned with default colours.
+  local personal = source_type == "crew" and GetSavedOutfit(source) or nil
+  return { outfit = outfit, source_type = source_type, personal = personal }
 end)
 
 AddEventHandler("SPZ:crewChanged", function(source, oldCrewId, newCrewId)
@@ -37,7 +41,7 @@ AddEventHandler("SPZ:crewChanged", function(source, oldCrewId, newCrewId)
     -- Joined a crew — check for crew outfit
     local crewOutfit = GetCrewOutfit(newCrewId)
     if crewOutfit then
-      TriggerClientEvent("SPZ:applyCrewOutfit", source, crewOutfit)
+      TriggerClientEvent("SPZ:applyCrewOutfit", source, crewOutfit, GetSavedOutfit(source))
       return
     end
   end

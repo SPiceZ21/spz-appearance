@@ -28,6 +28,17 @@
 local customizing = false
 
 local function IsCustomizing() return customizing end
+
+-- getMyOutfit reply -> ped. Crew outfits are clothes only, so the member's own
+-- look goes on first and the crew clothes over it.
+function ApplyResolvedOutfit(data)
+    if data.source_type == "personal" then
+        ApplyFullAppearance(data.outfit)
+        return
+    end
+    if data.personal then ApplyFullAppearance(data.personal) end
+    ApplyOutfitToLocalPed(data.outfit)
+end
 exports("IsCustomizing", IsCustomizing)
 
 RegisterNetEvent("SPZ:applyOutfit", function()
@@ -39,18 +50,15 @@ RegisterNetEvent("SPZ:applyOutfit", function()
         if customizing then return end
         if not data or not data.outfit then return end
 
-        if data.source_type == "personal" then
-            ApplyFullAppearance(data.outfit)
-        else
-            ApplyOutfitToLocalPed(data.outfit)
-        end
+        ApplyResolvedOutfit(data)
     end, {})
 end)
 
--- Server pushes crew outfit directly — always clothing-only
-RegisterNetEvent("SPZ:applyCrewOutfit", function(outfit)
+-- Server pushes crew outfit directly — clothing-only, over the member's own
+-- saved look (face / hair / colours) when they have one.
+RegisterNetEvent("SPZ:applyCrewOutfit", function(outfit, personal)
     if customizing then return end
-    ApplyOutfitToLocalPed(outfit)
+    ApplyResolvedOutfit({ outfit = outfit, source_type = "crew", personal = personal })
 end)
 
 -- Full fivem-appearance customization suite (new characters, /appearance).
@@ -153,11 +161,7 @@ local function ReapplyMyOutfit()
         if customizing then return end
         if not data or not data.outfit then return end
 
-        if data.source_type == "personal" then
-            ApplyFullAppearance(data.outfit)
-        else
-            ApplyOutfitToLocalPed(data.outfit)
-        end
+        ApplyResolvedOutfit(data)
     end, {})
 end
 
